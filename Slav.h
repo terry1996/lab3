@@ -3,7 +3,11 @@
 #include <vector>
 
 using namespace std;
-
+enum gender
+{
+	m,
+	f
+};
 class Slav
 {
 private:
@@ -24,4 +28,6 @@ public:
 	int id() { return _id; }
 
 	string description();
+	gender specify();
+	
 };
