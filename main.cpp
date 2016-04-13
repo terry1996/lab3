@@ -15,17 +15,17 @@
 
 #define REPORT_ADAPTERS showMeAdapterSizes(queueOfSlavs,stackOfSlavs)
 #define REPORT_CONTAINERS showMeContainerSizes(vectorOfSlavs,setOfSlavs,mapOfSlavs)
-#define REPORT_GENDER showMeGenderSizes(vectorOfWomen,vectorOfMen,mapOfGender)
+#define REPORT_GENDER showMeGenderSizes(vectorOfGender,mapOfGender)
 
 using namespace std;
 
 void showMeContainerSizes(vector <Slav *>, set <Slav *>, map <Slav *, Slav*>);
 void showMeAdapterSizes(queue <Slav *>, stack <Slav *>);
-void showMeGenderSizes(vector<Slav *>,vector<Slav *>,map<int,Slav *>);
+void showMeGenderSizes(vector<Slav *>,map<int,Slav *>);
 
 void containers(Slav *, int);
 void adapters(Slav *, int);
-void genderOfSlavs(Slav *,int,int);
+void genderOfSlavs(Slav *,int,char);
 
 int main(int argc, char const *argv[])
 {
@@ -34,46 +34,58 @@ int main(int argc, char const *argv[])
 	cout << "# Generated Slavs" << endl;
 	for (int i = 0; i < n; ++i)
 		cout << slavs[i].description() << endl;
-	int sex=atoi(argv[2]);
-	containers(slavs, n);
-	adapters(slavs, n);
+	char sex=*(argv[2]);
+	//containers(slavs, n);
+	//adapters(slavs, n);
 	genderOfSlavs(slavs,n,sex);
 
 
 	delete [] slavs;
 }
-void genderOfSlavs(Slav * slavs,int n,int sex)
+void genderOfSlavs(Slav * slavs,int n,char sex)
 {
 	
-	vector <Slav *> vectorOfMen;
-	vector <Slav *> vectorOfWomen;
+	vector <Slav *> vectorOfGender;
 	map <int,Slav *>mapOfGender;
 	
-	printf("Gender\n");
-	srand(time(NULL));
-	int random_place,i=0;
-	int *numbers=new int[n];
+	printf("#Gender\n");
+	int i=0;
+	int counterOfGender=0;
+	cout<<"!!!!"<<gender(sex);
+
 	do{
-	 random_place=rand()%n;
-	 if(numbers[random_place]!=1){	
-		numbers[random_place]=1;
-		if( (slavs+i)->specify()==sex)  vectorOfMen.push_back(slavs+random_place);
-		else vectorOfWomen.push_back(slavs+random_place);
+	 //cout<<"-:"<<(slavs+i)->specify()<<" ";
+		if( (slavs+i)->specify()==gender(sex))  {
+		vectorOfGender.push_back(slavs+i);
+		counterOfGender++;
+		}
 		i++;
-	 }
+	 
 	}while(i<n);
+		
 	printf("# vector\n");
 	REPORT_GENDER;
+	
+	
+		mapOfGender[gender(sex)]=*vectorOfGender.begin();
+	
+	
+		map<int,Slav *>::iterator it_map=mapOfGender.begin();
+		
+			cout<<sex<<": ";
+			for(int y=0;y<counterOfGender;y++){
+					cout<<(   ((*it_map).second)+y )->description();	
+				}cout<<endl;
+		
+		
 
-	for (int i=0;i<2;i++){
-		mapOfGender[gender(m)]=*vectorOfMen.begin();
-		mapOfGender[gender(f)]=*vectorOfWomen.begin();
-	}
+	
+
 	printf("## map\n");
 	REPORT_GENDER;
+		
 
-	delete [] numbers;
-	numbers=NULL;
+	
 	
 }
 
@@ -82,8 +94,7 @@ void containers(Slav * slavs, int n)
 	vector <Slav *> vectorOfSlavs;
 	set <Slav *> setOfSlavs;
 	map <Slav *, Slav *> mapOfSlavs;
-	//vector <Slav *> vectorOfGender;
-	//map <int,vector<Slav *> *>mapOfGender;
+	
 	
 	printf("# Containers\n");
 	REPORT_CONTAINERS;
@@ -94,11 +105,11 @@ void containers(Slav * slavs, int n)
 	int random_place,i=0;
 	int *numbers=new int[n];
 
-	/*vectorOfSlavs.push_back(0); 
-	for(int i=0;i<n;i++){
-		int position=rand()%vectorOfSlavs.size();
+	/*vectorOfSlavs.push_back(0); 							//  alterantywne losowe umieszczanie
+	for(int i=0;i<n;i++){									// funkcja insert jest czasochlonna? 	
+		int position=rand()%vectorOfSlavs.size();			//az tak, by jej nie uzywac?
 		vectorOfSlavs.insert(vectorOfSlavs.begin()+position,slavs+i);
-	}vectorOfSlavs.pop_back();*/
+	}*/
 
 	do{
 	 random_place=rand()%n;
@@ -111,7 +122,7 @@ void containers(Slav * slavs, int n)
 	// Wykorzystując iterator i funkcję description(), wyświetl wszystkich Słowian w wektorze
 	for(vector<Slav *>::iterator j =vectorOfSlavs.begin(); j!=vectorOfSlavs.end(); j++)
         cout<<(**j).description();
-	cout<<endl;
+	cout<<endl;git 
 	delete [] numbers;
 	numbers=NULL;
 
@@ -142,6 +153,7 @@ void containers(Slav * slavs, int n)
 		it=setOfSlavs.begin();
 		
 		for(int i=0;i<(n-1-j-j)  ;i++){it++;}
+
 		j++;
 		REPORT_CONTAINERS;
 	}	
@@ -154,9 +166,6 @@ void containers(Slav * slavs, int n)
 	}
 
 	REPORT_CONTAINERS;
-	//	for(vector<Slav *>::iterator it_gen=vectorOfSlavs.begin();it_gen!=vectorOfSlavs.end();it_gen++){
-	//		if((**it_gen).vectorOfSlavs->specify()==sex){
-	//			vectorOfGender.push_back((**it_gen).vectorOfSlavs);
 }
 
 void adapters(Slav * slavs, int n)
@@ -217,11 +226,12 @@ void showMeAdapterSizes(queue <Slav *> queue, stack <Slav *> stack)
 
 }
 
-void showMeGenderSizes(vector<Slav *>vector_f,vector<Slav *>vector_m, map < int, Slav *> map)
+void showMeGenderSizes(vector<Slav *>vector_G, map < int, Slav *> map)
 {
-	printf("[vector_f_size = %lu,vector_m_size = %lu, map_size = %lu, existingSlavs = %i]\n",
-		vector_f.size(),
-		vector_m.size(),
+	printf("[vector_f_size = %lu, map_size = %lu, existingSlavs = %i]\n",
+		vector_G.size(),
 		map.size(),
 		Slav::counter());
 }
+https://gist.github.com/terry1996/03b2b3e092824ae365d4c899f77e0bb3 
+
