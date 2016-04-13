@@ -233,5 +233,3 @@ void showMeGenderSizes(vector<Slav *>vector_G, map < int, Slav *> map)
 		map.size(),
 		Slav::counter());
 }
-https://gist.github.com/terry1996/03b2b3e092824ae365d4c899f77e0bb3 
-
