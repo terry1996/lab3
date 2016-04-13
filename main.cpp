@@ -234,4 +234,10 @@ void showMeGenderSizes(vector<Slav *>vector_G, map < int, Slav *> map)
 		Slav::counter());
 }
 https://gist.github.com/terry1996/03b2b3e092824ae365d4c899f77e0bb3 
-
+zad na 5,5 
+chodzi o fragment kodu:
+// static int amountOfNames = (init(), names.size());
+//Jest to leniwa inicjalizacja, tzn do amountOfNames przypisujemy ostatni parametr w nawiasie, czyli names.size().
+//Przed przypisaniem wykonują się wszystkie instrukcje z nawiasu, czyli init() - funkcja,
+//która kopiuje możliwe imiona obiektów z pliku names.dat do wektora. Rozmiar tego wektora przypisany jest do naszej zmiennej
+//amountOfNames.
